@@ -4,23 +4,37 @@
     <meta charset="UTF-8">
     <title>Acceso al Sistema | Encriptación de Datos</title>
     <style>
+        /* --- ESTILOS DEL VIDEO DE FONDO --- */
+        #video-background {
+            position: fixed; /* Fija el video en la ventana */
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1; /* Mantiene el video detrás de todo el contenido */
+            object-fit: cover; /* Asegura que el video cubra toda la pantalla */
+            filter: brightness(30%) grayscale(50%); /* Oscurece y desatura un poco el video */
+        }
+        /* ------------------------------------- */
+
         /* Estilo para simular una terminal hacker */
         body {
-            background-color: #000; /* Fondo negro */
+            background-color: transparent; /* Importante: Cambiar de #000 a transparente para ver el video */
             color: #00FF00; /* Texto verde brillante */
             font-family: 'Consolas', 'Monospace', monospace; /* Fuente de terminal */
             margin: 20px;
             padding: 0;
-            overflow: hidden; /* Evita barras de desplazamiento */
+            /* Evitamos que el scroll se vea con el video de fondo, pero no es estrictamente necesario */
+            /* overflow: hidden; */
         }
         
         .line {
-            white-space: pre-wrap; /* Mantiene el formato del texto */
+            white-space: pre-wrap;
             margin-bottom: 5px;
         }
         
         .prompt::after {
-            content: '_'; /* Cursor parpadeante */
+            content: '_';
             animation: blink 1s step-end infinite;
         }
 
@@ -30,24 +44,18 @@
         }
 
         .error {
-            color: #FF0000; /* Texto de error en rojo */
+            color: #FF0000;
         }
 
-        /* Estilo para el efecto de "escribiendo" */
-        .typing {
-            overflow: hidden; /* Oculta el texto */
-            border-right: .15em solid orange; /* Cursor de máquina de escribir */
-            white-space: nowrap; /* Evita que el texto salte de línea */
-            margin: 0 auto; /* Centra */
-            letter-spacing: .15em; /* Espaciado */
-            animation: 
-                typing 3s steps(40, end),
-                blink-caret .75s step-end infinite;
-        }
+        /* Puedes eliminar el estilo .typing si no lo estás usando */
     </style>
 </head>
 <body>
 
+    <video autoplay muted loop id="video-background">
+        <source src="fondo_animado.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+    </video>
     <div class="line">
         <span class="prompt">Iniciando protocolo de acceso no autorizado...</span>
     </div>
@@ -74,25 +82,31 @@
 
     <script>
         // --- Configuración de la Redirección ---
-        const DELAY_SEGUNDOS = 3; // Retardo en segundos
-        const URL_DESTINO = 'https://github.com/MadMark-Fox'; //
+        const DELAY_SEGUNDOS = 3;
+        const URL_DESTINO = 'https://github.com/MadMark-Fox';
         // ----------------------------------------
 
         let tiempoRestante = DELAY_SEGUNDOS;
         const contadorElement = document.getElementById('contador');
 
         function actualizarContador() {
-            if (tiempoRestante > 0) {
+            // Se resta 1 a tiempoRestante ANTES de mostrarlo en el código original,
+            // lo que hace que la cuenta regresiva sea de 3, 2, 1, 0 (4 segundos en total).
+            // Lo ajustamos para que la cuenta regresiva sea 3, 2, 1 (3 segundos)
+            if (tiempoRestante >= 0) { 
                 contadorElement.textContent = `Redirigiendo en ${tiempoRestante} segundos...`;
+                if (tiempoRestante === 0) {
+                    // Si el tiempo llega a 0, redirige.
+                    window.location.replace(URL_DESTINO);
+                    return; // Detiene la ejecución
+                }
                 tiempoRestante--;
-                setTimeout(actualizarContador, 1000); // Llama de nuevo después de 1 segundo
-            } else {
-                // Redirige después de que el contador llegue a cero
-                window.location.replace(URL_DESTINO);
+                setTimeout(actualizarContador, 1000);
             }
         }
 
-        // Inicia el contador después de un pequeño retraso inicial (opcional, para que parezca más "terminal")
+        // El código original tenía un desfase, lo ajustamos para que el contador inicie en 3
+        // y se muestre en 3, 2, 1 antes de redirigir.
         setTimeout(actualizarContador, 1000); 
     </script>
 </body>
