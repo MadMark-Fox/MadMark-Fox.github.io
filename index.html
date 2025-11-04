@@ -2,16 +2,98 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Página Antigua</title>
+    <title>Acceso al Sistema | Encriptación de Datos</title>
+    <style>
+        /* Estilo para simular una terminal hacker */
+        body {
+            background-color: #000; /* Fondo negro */
+            color: #00FF00; /* Texto verde brillante */
+            font-family: 'Consolas', 'Monospace', monospace; /* Fuente de terminal */
+            margin: 20px;
+            padding: 0;
+            overflow: hidden; /* Evita barras de desplazamiento */
+        }
+        
+        .line {
+            white-space: pre-wrap; /* Mantiene el formato del texto */
+            margin-bottom: 5px;
+        }
+        
+        .prompt::after {
+            content: '_'; /* Cursor parpadeante */
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { color: transparent }
+            50% { color: #00FF00; }
+        }
+
+        .error {
+            color: #FF0000; /* Texto de error en rojo */
+        }
+
+        /* Estilo para el efecto de "escribiendo" */
+        .typing {
+            overflow: hidden; /* Oculta el texto */
+            border-right: .15em solid orange; /* Cursor de máquina de escribir */
+            white-space: nowrap; /* Evita que el texto salte de línea */
+            margin: 0 auto; /* Centra */
+            letter-spacing: .15em; /* Espaciado */
+            animation: 
+                typing 3s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+    </style>
 </head>
 <body>
 
-    <p>Serás redirigido en breve...</p>
+    <div class="line">
+        <span class="prompt">Iniciando protocolo de acceso no autorizado...</span>
+    </div>
     
-    <script>
-        // Redirige inmediatamente
-        window.location.href = "https://github.com/MadMark-Fox";
-    </script>
+    <div class="line">
+        <span class="prompt">Conexión establecida con servidor remoto. IP: 192.168.1.100</span>
+    </div>
 
+    <div class="line">
+        <span class="prompt">Buscando vulnerabilidad en el puerto 443 (HTTPS)... [OK]</span>
+    </div>
+    
+    <div class="line error">
+        [ERROR]: Acceso Denegado. Se ha detectado un intento de *bypass*.
+    </div>
+    
+    <div class="line">
+        <span class="prompt">Activando redireccionamiento de emergencia...</span>
+    </div>
+
+    <div class="line">
+        <span class="prompt" id="contador">Redirigiendo en 4 segundos...</span>
+    </div>
+
+    <script>
+        // --- Configuración de la Redirección ---
+        const DELAY_SEGUNDOS = 4; // Retardo en segundos
+        const URL_DESTINO = 'https://github.com/MadMark-Fox'; //
+        // ----------------------------------------
+
+        let tiempoRestante = DELAY_SEGUNDOS;
+        const contadorElement = document.getElementById('contador');
+
+        function actualizarContador() {
+            if (tiempoRestante > 0) {
+                contadorElement.textContent = `Redirigiendo en ${tiempoRestante} segundos...`;
+                tiempoRestante--;
+                setTimeout(actualizarContador, 1000); // Llama de nuevo después de 1 segundo
+            } else {
+                // Redirige después de que el contador llegue a cero
+                window.location.replace(URL_DESTINO);
+            }
+        }
+
+        // Inicia el contador después de un pequeño retraso inicial (opcional, para que parezca más "terminal")
+        setTimeout(actualizarContador, 1000); 
+    </script>
 </body>
 </html>
